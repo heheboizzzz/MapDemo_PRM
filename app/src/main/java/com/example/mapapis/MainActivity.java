@@ -112,6 +112,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
     }
 
+
+//    onMapReady: Được gọi khi bản đồ sẵn sàng sử dụng.
+//    Nó di chuyển camera đến vị trí hiện tại và thêm các marker cho vị trí hiện tại và vị trí khách hàng.
+//    Nó cũng bắt đầu quá trình lấy và vẽ tuyến đường giữa hai vị trí.
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         myMap = googleMap;
@@ -121,6 +125,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         myMap.addMarker(options);
 
     }
+
+//    getDirectionsUrl: Xây dựng URL cho API Directions để lấy tuyến đường giữa điểm xuất phát và điểm đến.
 
     private String getDirectionsUrl(LatLng origin, LatLng dest) {
         // Origin of route
@@ -139,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return "https://maps.googleapis.com/maps/api/directions/" + output + "?" + parameters + "&key=" + getString(R.string.map_api_key);
     }
 
+//    FetchDirectionsTask: AsyncTask để lấy dữ liệu chỉ đường từ API Directions trong nền.
     private class FetchDirectionsTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... url) {
@@ -151,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return data;
         }
 
+
         @Override
         protected void onPostExecute(String result) {
             super.onPostExecute(result);
@@ -158,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    //        downloadUrl: Tải dữ liệu từ URL đã cho và trả về dưới dạng String.
     private String downloadUrl(String strUrl) throws Exception {
         String data = "";
         InputStream iStream = null;
@@ -186,6 +195,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return data;
     }
 
+
+//    ParseDirectionsTask: AsyncTask để phân tích dữ liệu chỉ đường từ JSON trả về và
+//    trích xuất danh sách các điểm LatLng để vẽ tuyến đường trên bản đồ.
     private class ParseDirectionsTask extends AsyncTask<String, Void, List<LatLng>> {
         @Override
         protected List<LatLng> doInBackground(String... jsonData) {
